@@ -8,12 +8,12 @@ function App() {
 
   const hero1 = new Hero(
     { radius: 20, x: 50, y: 100 },
-    { color: "#FF0000", name: "Player 1"}
+    { color: "#FF0000", name: "Player 1", speed: 1}
   )
 
   const hero2 = new Hero(
     { radius: 20, x: 750, y: 500 },
-    { color: "#0000FF", name: "Player 2"}
+    { color: "#0000FF", name: "Player 2", speed: -1}
   )
   // const hero2 = new Hero(
   //   { radius: 20, x: 750, y: 500 },
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="grid">
-        <div style={{ border: "1px solid black", gridArea: "canvas" }}>
+        <div style={{gridArea: "canvas" }}>
           <CanvasField {...dimensions} heroes={heroes} /> 
           {/* heroes={heroes} */}
         </div>

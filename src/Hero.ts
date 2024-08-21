@@ -7,6 +7,7 @@ interface HeroGeometry {
 interface HeroAttributes {
   color: string;
   name: string;
+  speed: number
 }
 
 export default class Hero {
@@ -27,5 +28,18 @@ export default class Hero {
     context.fillStyle = color;
     context.fill();
     context.closePath();
+  }
+
+  update() {
+    this.geometry.y += this.attributes.speed;
+  }
+
+  bounce() {
+    this.attributes.speed = -this.attributes.speed;
+  }
+
+  collidesWith(height: number) {
+    if (this.geometry.y - this.geometry.radius <= 0 || this.geometry.y + this.geometry.radius >= height) return true
+    return false
   }
 }

@@ -20,14 +20,36 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
   }, []);
 
   useEffect(() => {
+    let animationFrameId: number;
     if (context) {
-      heroes.forEach((hero) => {
-        hero.draw(context);
-      });
+      const render = () => {
+        context.clearRect(0, 0, width, height);
+        heroes.forEach((hero) => {
+          hero.update();
+          hero.draw(context);
+          if (hero.collidesWith(height)) {
+            hero.bounce();
+            hero.update();
+          }
+        });
+        animationFrameId = requestAnimationFrame(render);
+      };
+      render();
     }
-  }, [context]);
 
-  return <canvas height={height} ref={canvasRef} width={width} />;
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [context, height, width, heroes]);
+
+  return (
+    <canvas
+      height={height}
+      ref={canvasRef}
+      width={width}
+      className="canvas-field"
+    />
+  );
 };
 
 export default memo(CanvasField);
