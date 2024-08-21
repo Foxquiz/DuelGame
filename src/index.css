@@ -4,6 +4,7 @@
     "canvas status"
     "controls controls"
     /auto 1fr;
+  gap: 10px;
 }
 
 .canvas-field {
