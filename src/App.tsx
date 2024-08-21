@@ -8,18 +8,13 @@ function App() {
 
   const hero1 = new Hero(
     { radius: 20, x: 50, y: 100 },
-    { color: "#FF0000", name: "Player 1", speed: 1}
+    { color: "#FF0000", name: "Player 1", speed: 1, spellRate: 10}
   )
 
   const hero2 = new Hero(
     { radius: 20, x: 750, y: 500 },
-    { color: "#0000FF", name: "Player 2", speed: -1}
+    { color: "#0000FF", name: "Player 2", speed: -1, spellRate: 10}
   )
-  // const hero2 = new Hero(
-  //   { radius: 20, x: 750, y: 500 },
-  //   { color: "#0000FF", fireRate: 0.01, name: "Player 2", speed: -1 },
-  //   0,
-  // )
 
   const heroes = [hero1, hero2];
 

@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import Hero from "./Hero";
+import Spell from "./Spell";
 
 interface CanvasFieldProps {
   height: number;
@@ -25,13 +26,54 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
       const render = () => {
         context.clearRect(0, 0, width, height);
         heroes.forEach((hero) => {
-          hero.update();
-          hero.draw(context);
+          hero.update(heroes);
           if (hero.collidesWith(height)) {
             hero.bounce();
-            hero.update();
+            hero.update(heroes);
           }
+          hero.draw(context);
         });
+
+        heroes.forEach((hero) => {
+          const heroSpell = new Set(
+            [...Spell.all].filter((spell) => spell.attributes.owner == hero),
+          );
+
+          const otherHeroSpell = new Set(
+            [...Spell.all].filter((spell) => spell.attributes.owner !== hero),
+          );
+
+          heroSpell.forEach((spell) => {
+            otherHeroSpell.forEach((otherSpell) => {
+              if (spell.collidesWith(otherSpell.geometry)) {
+                spell.destroy();
+                otherSpell.destroy();
+              }
+            });
+          });
+        });
+
+        Spell.all.forEach((spell) => {
+          spell.update();
+
+          const hasMetWall = [
+            spell.collidesWith({ y: 0 }),
+            spell.collidesWith({ y: height }),
+            spell.collidesWith({ x: 0 }),
+            spell.collidesWith({ x: width }),
+          ].some(Boolean);
+          if (hasMetWall) spell.destroy();
+
+          heroes.forEach((hero) => {
+            if (spell.attributes.owner === hero) return;
+            if (spell.collidesWith(hero.geometry)) {
+              spell.destroy();
+            }
+          });
+
+          spell.draw(context);
+        });
+
         animationFrameId = requestAnimationFrame(render);
       };
       render();
