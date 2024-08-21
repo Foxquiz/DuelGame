@@ -1,6 +1,7 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 import Hero from "./Hero";
 import Spell from "./Spell";
+import { GameContext } from "./GameContext";
 
 interface CanvasFieldProps {
   height: number;
@@ -10,14 +11,15 @@ interface CanvasFieldProps {
 
 const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [context, setContect] = useState<CanvasRenderingContext2D | null>(null);
+  const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  const { update } = useContext(GameContext);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const context = canvas.getContext("2d");
     if (!context) return;
-    setContect(context);
+    setContext(context);
   }, []);
 
   useEffect(() => {
@@ -68,6 +70,8 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
             if (spell.attributes.owner === hero) return;
             if (spell.collidesWith(hero.geometry)) {
               spell.destroy();
+              hero.addHit(1);
+              update();
             }
           });
 

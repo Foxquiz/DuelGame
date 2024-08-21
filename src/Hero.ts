@@ -17,11 +17,17 @@ export default class Hero {
   charge: number;
   geometry: HeroGeometry;
   attributes: HeroAttributes;
+  hits: number;
 
-  constructor(geometry: HeroGeometry, attributes: HeroAttributes) {
+  constructor(
+    geometry: HeroGeometry,
+    attributes: HeroAttributes,
+    hits: number,
+  ) {
     this.geometry = geometry;
     this.attributes = attributes;
     this.charge = 0;
+    this.hits = hits;
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -79,5 +85,9 @@ export default class Hero {
         },
       },
     );
+  }
+
+  addHit(damage:number) {
+    this.hits += damage;
   }
 }
