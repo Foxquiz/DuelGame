@@ -56,13 +56,14 @@ export default class Hero {
     this.attributes.speed = -this.attributes.speed;
   }
 
-  collidesWith(height: number) {
-    if (
-      this.geometry.y - this.geometry.radius <= 0 ||
-      this.geometry.y + this.geometry.radius >= height
-    )
-      return true;
-    return false;
+  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
+    const dx = x !== undefined ? this.geometry.x - x : 0;
+    const dy = y !== undefined ? this.geometry.y - y : 0;
+    const dr =
+      radius !== undefined
+        ? this.geometry.radius + radius
+        : this.geometry.radius;
+    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2);
   }
 
   castSpell({ x, y }: { x?: number; y?: number }) {
