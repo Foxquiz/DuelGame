@@ -19,8 +19,8 @@ const Scoreboard = ({ heroes }: ScoreboardProps) => {
             height="16"
             viewBox="0 0 24 24"
             fill={hero.attributes.color}
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <circle cx="12" cy="12" r="10" />
           </svg>
