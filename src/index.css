@@ -22,12 +22,12 @@
   margin-bottom: 0;
 }
 
-.player-score{
+.player-score {
   display: flex;
   align-items: center;
 }
 
-.player-score svg{
+.player-score svg {
   margin-right: 5px;
 }
 
@@ -61,7 +61,7 @@
   margin-inline-end: 3px;
 }
 
-#spellRate-slider+.tickmarks span:last-child{
+#spellRate-slider+.tickmarks span:last-child {
   margin-right: -6px;
 }
 

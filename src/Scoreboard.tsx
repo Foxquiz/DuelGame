@@ -1,13 +1,13 @@
-import { memo, useContext } from "react";
-import Hero from "./Hero";
-import { GameContext } from "./GameContext";
+import { memo, useContext } from "react"
+import Hero from "./Hero"
+import { GameContext } from "./GameContext"
 
 interface ScoreboardProps {
-  heroes: Hero[];
+  heroes: Hero[]
 }
 
 const Scoreboard = ({ heroes }: ScoreboardProps) => {
-  useContext(GameContext);
+  useContext(GameContext)
   return (
     <>
       <h3 className="settings-title">Количество попаданий по герою:</h3>

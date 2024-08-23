@@ -1,28 +1,31 @@
-import "./index.css";
-import CanvasField from "./CanvasField";
-import Hero from "./Hero";
-import Scoreboard from "./Scoreboard";
-import { GameProvider } from "./GameContext";
-import AttributesForm from "./AttributesForm";
-import { useMemo, useState } from "react";
+import "./index.css"
+import CanvasField from "./CanvasField"
+import Hero from "./Hero"
+import Scoreboard from "./Scoreboard"
+import { GameProvider } from "./GameContext"
+import AttributesForm from "./AttributesForm"
+import { useMemo, useState } from "react"
 
 const dimensions = { height: 600, width: 800 }
 
-const DuelGame = ()=> {
-  const heroState = useState<Hero | null>(null);
+const DuelGame = () => {
+  const heroState = useState<Hero | null>(null)
 
-  const heroes = useMemo(() => [
-    new Hero(
-      { radius: 20, x: 50, y: 100 },
-      { color: "#FF0000", name: "Player 1", speed: 1, spellRate: 1 },
-      0,
-    ),
-    new Hero(
-      { radius: 20, x: 750, y: 500 },
-      { color: "#0000FF", name: "Player 2", speed: -1, spellRate: 1 },
-      0,
-    )
-  ], [])
+  const heroes = useMemo(
+    () => [
+      new Hero(
+        { radius: 20, x: 50, y: 100 },
+        { color: "#FF0000", name: "Player 1", speed: 1, spellRate: 1 },
+        0,
+      ),
+      new Hero(
+        { radius: 20, x: 750, y: 500 },
+        { color: "#0000FF", name: "Player 2", speed: -1, spellRate: 1 },
+        0,
+      ),
+    ],
+    [],
+  )
 
   return (
     <GameProvider value={heroState}>
