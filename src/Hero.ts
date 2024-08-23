@@ -18,6 +18,7 @@ export default class Hero {
   geometry: HeroGeometry;
   attributes: HeroAttributes;
   hits: number;
+  spellColor: string;
 
   constructor(
     geometry: HeroGeometry,
@@ -28,6 +29,7 @@ export default class Hero {
     this.attributes = attributes;
     this.charge = 0;
     this.hits = hits;
+    this.spellColor = attributes.color
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -70,15 +72,19 @@ export default class Hero {
     const dx = x !== undefined ? x - this.geometry.x : 0;
     const dy = y !== undefined ? y - this.geometry.y : 0;
     const angle = Math.atan2(dy, dx) + (Math.PI / 8) * (2 * Math.random() - 1);
+
+    const spellStartX = this.geometry.x + this.geometry.radius * Math.cos(angle);
+    const spellStartY = this.geometry.y + this.geometry.radius * Math.sin(angle);
+
     const spellSpeed = 5;
     new Spell(
       {
         radius: 5,
-        x: this.geometry.x,
-        y: this.geometry.y,
+        x: spellStartX,
+        y: spellStartY,
       },
       {
-        color: this.attributes.color,
+        color: this.spellColor,
         owner: this,
         speed: {
           x: spellSpeed * Math.cos(angle),

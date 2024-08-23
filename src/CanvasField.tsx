@@ -12,7 +12,10 @@ interface CanvasFieldProps {
 const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
-  const { update } = useContext(GameContext)
+  const {
+    update,
+    selectedHero: [_selectedHero, setSelectedHero],
+  } = useContext(GameContext)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -40,11 +43,13 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
           if (hasMetWall) {
             hero.bounce()
             hero.update(heroes)
+            update()
           }
 
           if (posRef.current && hero.collidesWith(posRef.current)) {
             console.log(`Hero ${hero.attributes.name} bounced!`)
             hero.bounce()
+            update()
           }
 
           hero.draw(context)
@@ -100,7 +105,7 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
     return () => {
       cancelAnimationFrame(animationFrameId)
     }
-  }, [context, height, width, heroes])
+  }, [context, height, width, heroes, update])
 
   const posRef = useRef<{ x: number; y: number } | null>(null)
 
@@ -120,6 +125,29 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
       canvas.removeEventListener("mousemove", handleMouseMove)
     }
   }, [heroes])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const handleMouseClick = (event: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      const mouseX = event.clientX - rect.left
+      const mouseY = event.clientY - rect.top
+      heroes.forEach((hero) => {
+        if (hero.collidesWith({ x: mouseX, y: mouseY })) {
+          console.log(`Hero ${hero.attributes.name} click!`)
+          setSelectedHero(hero)
+          update()
+        }
+      })
+    }
+
+    canvas.addEventListener("click", handleMouseClick)
+    return () => {
+      canvas.removeEventListener("click", handleMouseClick)
+    }
+  }, [heroes, setSelectedHero, update])
 
   return (
     <canvas

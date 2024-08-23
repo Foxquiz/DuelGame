@@ -10,3 +10,74 @@
 .canvas-field {
   border: 1px solid black;
 }
+
+.settings-block {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.settings-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.player-score{
+  display: flex;
+  align-items: center;
+}
+
+.player-score svg{
+  margin-right: 5px;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.label {
+  display: flex;
+  min-width: 145px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 150px;
+}
+
+.slider-container input[type="range"] {
+  width: 100%;
+}
+
+.tickmarks {
+  display: flex;
+  justify-content: space-between;
+  margin-inline-start: 6px;
+  margin-inline-end: 3px;
+}
+
+#spellRate-slider+.tickmarks span:last-child{
+  margin-right: -6px;
+}
+
+.tickmarks span {
+  font-size: 12px;
+  position: relative;
+  top: 10px;
+}
+
+.tickmarks ::after {
+  content: '|';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 900;
+  color: black;
+}
