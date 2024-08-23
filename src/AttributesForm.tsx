@@ -11,6 +11,8 @@ const AttributesForm = () => {
     return null
   }
 
+  const isNegativeZero = (value:number) => value === 0 && 1 / value === -Infinity;
+
   return (
     <>
       <h3 className="settings-title">Настройки героя</h3>
@@ -66,8 +68,8 @@ const AttributesForm = () => {
             id="speed-slider"
             onChange={(event) => {
               const speed = event.target.value
-              selectedHero.attributes.speed =
-                Math.sign(selectedHero.attributes.speed) * parseFloat(speed)
+              const sign = isNegativeZero(selectedHero.attributes.speed) ? -1 : Math.sign(selectedHero.attributes.speed) || 1;
+              selectedHero.attributes.speed = sign * parseFloat(speed)
               update()
             }}
           />
