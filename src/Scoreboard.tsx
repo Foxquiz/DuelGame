@@ -1,6 +1,7 @@
 import { memo, useContext } from "react"
-import Hero from "./Hero"
+
 import { GameContext } from "./GameContext"
+import Hero from "./Hero"
 
 interface ScoreboardProps {
   heroes: Hero[]
@@ -12,15 +13,15 @@ const Scoreboard = ({ heroes }: ScoreboardProps) => {
     <>
       <h3 className="settings-title">Количество попаданий по герою:</h3>
       {heroes.map((hero) => (
-        <p key={hero.attributes.name} className="player-score">
+        <p className="player-score" key={hero.attributes.name}>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
             fill={hero.attributes.color}
+            height="16"
             strokeLinecap="round"
             strokeLinejoin="round"
+            viewBox="0 0 24 24"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <circle cx="12" cy="12" r="10" />
           </svg>

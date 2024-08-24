@@ -5,16 +5,21 @@ import {
   useCallback,
   useState,
 } from "react"
+
 import Hero from "./Hero"
 
 interface GameContextValue {
-  update: () => void
   selectedHero: [Hero | null, Dispatch<Hero | null>]
+  update: () => void
+}
+
+const throwError = (methodName: string) => {
+  throw new Error(`${methodName} was called outside of its Provider`)
 }
 
 export const GameContext = createContext<GameContextValue>({
-  update: () => {},
-  selectedHero: [null, () => {}],
+  selectedHero: [null, () => throwError("setSelectedHero")],
+  update: () => throwError("update"),
 })
 
 export const GameProvider = ({
@@ -30,7 +35,7 @@ export const GameProvider = ({
     setTick((tick) => (tick + 1) % 60)
   }, [])
   return (
-    <GameContext.Provider value={{ update, selectedHero: value }}>
+    <GameContext.Provider value={{ selectedHero: value, update }}>
       {children}
     </GameContext.Provider>
   )

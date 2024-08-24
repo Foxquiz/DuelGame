@@ -14,9 +14,9 @@ interface HeroAttributes {
 }
 
 export default class Hero {
+  attributes: HeroAttributes
   charge: number
   geometry: HeroGeometry
-  attributes: HeroAttributes
   hits: number
   spellColor: string
 
@@ -32,40 +32,12 @@ export default class Hero {
     this.spellColor = attributes.color
   }
 
-  draw(context: CanvasRenderingContext2D) {
-    const { radius, x, y } = this.geometry
-    const { color } = this.attributes
-
-    context.beginPath()
-    context.arc(x, y, radius, 0, Math.PI * 2)
-    context.fillStyle = color
-    context.fill()
-    context.closePath()
-  }
-
-  update(heroes: Hero[]) {
-    this.geometry.y += this.attributes.speed
-
-    this.charge += this.attributes.spellRate
-    if (this.charge >= 100) {
-      const target = heroes.find((hero) => hero !== this)
-      if (target) this.castSpell(target.geometry)
-      this.charge -= 100
-    }
+  addHit(damage: number) {
+    this.hits += damage
   }
 
   bounce() {
     this.attributes.speed = -this.attributes.speed
-  }
-
-  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
-    const dx = x !== undefined ? this.geometry.x - x : 0
-    const dy = y !== undefined ? this.geometry.y - y : 0
-    const dr =
-      radius !== undefined
-        ? this.geometry.radius + radius
-        : this.geometry.radius
-    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2)
   }
 
   castSpell({ x, y }: { x?: number; y?: number }) {
@@ -94,7 +66,35 @@ export default class Hero {
     )
   }
 
-  addHit(damage: number) {
-    this.hits += damage
+  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
+    const dx = x !== undefined ? this.geometry.x - x : 0
+    const dy = y !== undefined ? this.geometry.y - y : 0
+    const dr =
+      radius !== undefined
+        ? this.geometry.radius + radius
+        : this.geometry.radius
+    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2)
+  }
+
+  draw(context: CanvasRenderingContext2D) {
+    const { radius, x, y } = this.geometry
+    const { color } = this.attributes
+
+    context.beginPath()
+    context.arc(x, y, radius, 0, Math.PI * 2)
+    context.fillStyle = color
+    context.fill()
+    context.closePath()
+  }
+
+  update(heroes: Hero[]) {
+    this.geometry.y += this.attributes.speed
+
+    this.charge += this.attributes.spellRate
+    if (this.charge >= 100) {
+      const target = heroes.find((hero) => hero !== this)
+      if (target) this.castSpell(target.geometry)
+      this.charge -= 100
+    }
   }
 }

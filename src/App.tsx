@@ -1,10 +1,11 @@
-import "./index.css"
-import CanvasField from "./CanvasField"
-import Hero from "./Hero"
-import Scoreboard from "./Scoreboard"
-import { GameProvider } from "./GameContext"
-import AttributesForm from "./AttributesForm"
 import { useMemo, useState } from "react"
+
+import AttributesForm from "./AttributesForm"
+import CanvasField from "./CanvasField"
+import { GameProvider } from "./GameContext"
+import Hero from "./Hero"
+import "./index.css"
+import Scoreboard from "./Scoreboard"
 
 const dimensions = { height: 600, width: 800 }
 
@@ -33,7 +34,7 @@ const DuelGame = () => {
         <div style={{ gridArea: "canvas" }}>
           <CanvasField {...dimensions} heroes={heroes} />
         </div>
-        <div style={{ gridArea: "controls" }} className="settings-block">
+        <div className="settings-block" style={{ gridArea: "controls" }}>
           <AttributesForm />
         </div>
         <div style={{ gridArea: "status" }}>

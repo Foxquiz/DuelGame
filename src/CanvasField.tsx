@@ -1,20 +1,21 @@
 import { memo, useContext, useEffect, useRef, useState } from "react"
+
+import { GameContext } from "./GameContext"
 import Hero from "./Hero"
 import Spell from "./Spell"
-import { GameContext } from "./GameContext"
 
 interface CanvasFieldProps {
   height: number
-  width: number
   heroes: Hero[]
+  width: number
 }
 
-const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
+const CanvasField = ({ height, heroes, width }: CanvasFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const {
-    update,
     selectedHero: [_selectedHero, setSelectedHero],
+    update,
   } = useContext(GameContext)
 
   useEffect(() => {
@@ -47,7 +48,6 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
           }
 
           if (posRef.current && hero.collidesWith(posRef.current)) {
-            console.log(`Hero ${hero.attributes.name} bounced!`)
             hero.bounce()
             update()
           }
@@ -136,7 +136,6 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
       const mouseY = event.clientY - rect.top
       heroes.forEach((hero) => {
         if (hero.collidesWith({ x: mouseX, y: mouseY })) {
-          console.log(`Hero ${hero.attributes.name} click!`)
           setSelectedHero(hero)
           update()
         }
@@ -151,10 +150,10 @@ const CanvasField = ({ height, width, heroes }: CanvasFieldProps) => {
 
   return (
     <canvas
+      className="canvas-field"
       height={height}
       ref={canvasRef}
       width={width}
-      className="canvas-field"
     />
   )
 }

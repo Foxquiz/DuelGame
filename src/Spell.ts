@@ -14,13 +14,23 @@ interface SpellAttributes {
 
 export default class Spell {
   static all = new Set<Spell>()
-  geometry: SpellGeometry
   attributes: SpellAttributes
+  geometry: SpellGeometry
 
   constructor(geometry: SpellGeometry, attributes: SpellAttributes) {
     this.geometry = geometry
     this.attributes = attributes
     Spell.all.add(this)
+  }
+
+  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
+    const dx = x !== undefined ? this.geometry.x - x : 0
+    const dy = y !== undefined ? this.geometry.y - y : 0
+    const dr =
+      radius !== undefined
+        ? this.geometry.radius + radius
+        : this.geometry.radius
+    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2)
   }
 
   destroy() {
@@ -41,15 +51,5 @@ export default class Spell {
   update() {
     this.geometry.x += this.attributes.speed.x
     this.geometry.y += this.attributes.speed.y
-  }
-
-  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
-    const dx = x !== undefined ? this.geometry.x - x : 0
-    const dy = y !== undefined ? this.geometry.y - y : 0
-    const dr =
-      radius !== undefined
-        ? this.geometry.radius + radius
-        : this.geometry.radius
-    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2)
   }
 }

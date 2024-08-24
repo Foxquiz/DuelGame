@@ -1,4 +1,5 @@
 import { memo, useContext } from "react"
+
 import { GameContext } from "./GameContext"
 
 const AttributesForm = () => {
@@ -11,7 +12,8 @@ const AttributesForm = () => {
     return null
   }
 
-  const isNegativeZero = (value:number) => value === 0 && 1 / value === -Infinity;
+  const isNegativeZero = (value: number) =>
+    value === 0 && 1 / value === -Infinity
 
   return (
     <>
@@ -21,33 +23,33 @@ const AttributesForm = () => {
           Цвет заклинаний: {selectedHero.spellColor}
         </label>
         <input
-          type="color"
-          name="color"
           id="color"
-          value={selectedHero.spellColor}
+          name="color"
           onChange={(event) => {
             const color = event.target.value
             selectedHero.spellColor = color
             update()
           }}
+          type="color"
+          value={selectedHero.spellColor}
         />
         <label className="label" htmlFor="spellRate-slider">
           Частота стрельбы: {selectedHero.attributes.spellRate}
         </label>
         <div className="slider-container">
           <input
-            type="range"
-            name="spellRate"
-            min="0"
-            max="100"
-            value={selectedHero.attributes.spellRate}
-            step="1"
             id="spellRate-slider"
+            max="100"
+            min="0"
+            name="spellRate"
             onChange={(event) => {
               const spellRate = event.target.value
               selectedHero.attributes.spellRate = parseInt(spellRate)
               update()
             }}
+            step="1"
+            type="range"
+            value={selectedHero.attributes.spellRate}
           />
           <div className="tickmarks">
             <span>0</span>
@@ -59,19 +61,21 @@ const AttributesForm = () => {
         </label>
         <div className="slider-container">
           <input
-            type="range"
-            name="speed"
-            min="0"
-            max="1"
-            value={Math.abs(selectedHero.attributes.speed)}
-            step="0.2"
             id="speed-slider"
+            max="1"
+            min="0"
+            name="speed"
             onChange={(event) => {
               const speed = event.target.value
-              const sign = isNegativeZero(selectedHero.attributes.speed) ? -1 : Math.sign(selectedHero.attributes.speed) || 1;
+              const sign = isNegativeZero(selectedHero.attributes.speed)
+                ? -1
+                : Math.sign(selectedHero.attributes.speed) || 1
               selectedHero.attributes.speed = sign * parseFloat(speed)
               update()
             }}
+            step="0.2"
+            type="range"
+            value={Math.abs(selectedHero.attributes.speed)}
           />
           <div className="tickmarks">
             <span>0</span>
