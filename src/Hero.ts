@@ -1,22 +1,18 @@
+import { Attributes, GameObject, Geometry } from "./GameObject"
 import Spell from "./Spell"
 
-interface HeroGeometry {
-  radius: number
-  x: number
-  y: number
+interface HeroGeometry extends Geometry {
+  __EXTENDS_GEOMETRY_BASE?: never
 }
 
-interface HeroAttributes {
-  color: string
+interface HeroAttributes extends Attributes {
   name: string
   speed: number
   spellRate: number
 }
 
-export default class Hero {
-  attributes: HeroAttributes
+export default class Hero extends GameObject<HeroGeometry, HeroAttributes> {
   charge: number
-  geometry: HeroGeometry
   hits: number
   spellColor: string
 
@@ -25,6 +21,7 @@ export default class Hero {
     attributes: HeroAttributes,
     hits: number,
   ) {
+    super(attributes, geometry)
     this.geometry = geometry
     this.attributes = attributes
     this.charge = 0
@@ -64,27 +61,6 @@ export default class Hero {
         },
       },
     )
-  }
-
-  collidesWith({ radius, x, y }: { radius?: number; x?: number; y?: number }) {
-    const dx = x !== undefined ? this.geometry.x - x : 0
-    const dy = y !== undefined ? this.geometry.y - y : 0
-    const dr =
-      radius !== undefined
-        ? this.geometry.radius + radius
-        : this.geometry.radius
-    return Math.pow(dx, 2) + Math.pow(dy, 2) < Math.pow(dr, 2)
-  }
-
-  draw(context: CanvasRenderingContext2D) {
-    const { radius, x, y } = this.geometry
-    const { color } = this.attributes
-
-    context.beginPath()
-    context.arc(x, y, radius, 0, Math.PI * 2)
-    context.fillStyle = color
-    context.fill()
-    context.closePath()
   }
 
   update(heroes: Hero[]) {
