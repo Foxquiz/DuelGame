@@ -12,8 +12,7 @@ const AttributesForm = () => {
     return null
   }
 
-  const isNegativeZero = (value: number) =>
-    value === 0 && 1 / value === -Infinity
+  const isNegativeZero = (value: number) => Object.is(value, -0)
 
   return (
     <>
