@@ -10,7 +10,7 @@ interface CanvasFieldProps {
   width: number
 }
 
-const CanvasField = ({ height, heroes, width }: CanvasFieldProps) => {
+const GameField = ({ height, heroes, width }: CanvasFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const posRef = useRef<{ x: number; y: number } | null>(null)
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
@@ -157,4 +157,4 @@ const CanvasField = ({ height, heroes, width }: CanvasFieldProps) => {
   )
 }
 
-export default memo(CanvasField)
+export default memo(GameField)
