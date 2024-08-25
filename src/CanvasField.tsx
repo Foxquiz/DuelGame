@@ -12,6 +12,7 @@ interface CanvasFieldProps {
 
 const CanvasField = ({ height, heroes, width }: CanvasFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const posRef = useRef<{ x: number; y: number } | null>(null)
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const {
     selectedHero: [_selectedHero, setSelectedHero],
@@ -106,8 +107,6 @@ const CanvasField = ({ height, heroes, width }: CanvasFieldProps) => {
       cancelAnimationFrame(animationFrameId)
     }
   }, [context, height, width, heroes, update])
-
-  const posRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
